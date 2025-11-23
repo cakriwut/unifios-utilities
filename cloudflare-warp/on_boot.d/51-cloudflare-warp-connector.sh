@@ -16,9 +16,11 @@ if [ ! -f /etc/apt/sources.list.d/cloudflare-client.list ] ; then
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/cloudflare-client.list
 fi
 
-apt update
+dpkg -l | grep cloudflare-warp 1>/dev/null 2>&1
+PACKAGE_INSTALLED=$?
 
-if ! dpkg -l | grep -q cloudflare-warp ; then
+apt update
+if [ ${PACKAGE_INSTALLED} != 0 ] ; then
   # attempt to install
   apt install -y cloudflare-warp || exit 1
 else
@@ -41,7 +43,7 @@ systemctl stop warp-svc.service 2>/dev/null || true
 systemctl enable warp-svc.service
 systemctl start warp-svc.service
 
-# wait for warp-svc to be ready
+# wait for warp-svc daemon to initialize before running warp-cli commands
 sleep 5
 
 # configure connector if token is provided and not already configured
