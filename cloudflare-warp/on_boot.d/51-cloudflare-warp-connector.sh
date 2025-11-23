@@ -28,14 +28,6 @@ else
   apt upgrade -y cloudflare-warp
 fi
 
-# enable IP forwarding
-sysctl -w net.ipv4.ip_forward=1
-
-# ensure IP forwarding persists across reboots
-if ! grep -q "net.ipv4.ip_forward=1" /etc/sysctl.conf 2>/dev/null; then
-  echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-fi
-
 # stop any existing warp-svc service
 systemctl stop warp-svc.service 2>/dev/null || true
 

@@ -46,10 +46,9 @@ root@UDM-SE:/mnt/data/on_boot.d# ./51-cloudflare-warp-connector.sh
 The script will:
 1. Set up the Cloudflare WARP repository and GPG key
 2. Install or upgrade the `cloudflare-warp` package
-3. Enable IP forwarding (`sysctl -w net.ipv4.ip_forward=1`)
-4. Start the `warp-svc` daemon service
-5. Register the connector with your token
-6. Connect to Cloudflare WARP
+3. Start the `warp-svc` daemon service
+4. Register the connector with your token
+5. Connect to Cloudflare WARP
 
 ## Verification
 
@@ -97,7 +96,9 @@ If you prefer to configure the connector manually after installation, you can:
 
 ## Troubleshooting
 
-### Check if IP forwarding is enabled
+### Verify IP forwarding is enabled
+
+IP forwarding is enabled by default on UDM routers. You can verify with:
 
 ```bash
 sysctl net.ipv4.ip_forward
